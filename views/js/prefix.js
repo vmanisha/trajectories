@@ -33,7 +33,7 @@ var trajectories = {};
 function RetrieveAndDisplayTrajectory() {
 
   // Variable to store data for server. 
-  var send_data = {};
+  var send_data = JSON.stringify({'filename':'trajectory.txt'});
 
   // Make a call via ajax to fetch data from server
   $.ajax({ url : "getTrajectory", 

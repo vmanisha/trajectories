@@ -22,23 +22,30 @@ module.exports = {
      	        while( i < array.length)
      	        {
 				   var split = array[i].split(' ');
-     	           // format : prefix_length num_trajectories.
-     	           var num_trajectories =  int(split[1]);
+				   if (split.length == 2) {
+					  // format : prefix_length num_trajectories.
+     	           	  var num_trajectories =  parseInt(split[1]);
+				  
+				   	  pref_rows = [];
+				   	  for( var j = i+1 ; j < i+num_trajectories+1 ;j++) {
+				   	     var lat_long_split = array[j].split(';');
+				   	     var row_lat_long = [];
+				   	     for(var k in lat_long_split) {
+				   	   	var lat_long_k = lat_long_split[k].split(',');
+				   	   	// Add lat_1, long_1 pair.
+				   	   	if (lat_long_k.length == 2)
+				   	   		row_lat_long.push([parseFloat(lat_long_k[0]), parseFloat(lat_long_k[1])]);
+				   	     }
+				   	     pref_rows.push(row_lat_long);
+				   	  }
 
-				   pref_rows = [];
-				   for( var j = i+1 ; j < i+num_trajectories+1 ;j++) {
-					  var lat_long_split = array[j].split(';');
-					  var row_lat_long = [];
-					  for(var k in lat_long_split) {
-						var lat_long_k = lat_long_split[k].split(',');
-						// Add lat_1, long_1 pair.
-						row_lat_long.push([float(lat_long_k[0]), float(lat_long_k[1])]);
-					  }
-					  pref_rows.push(row_lat_long);
+				   	  trajectories.push(pref_rows);
+					  i = i+num_trajectories+1;
 				   }
-
-				   trajectories.push(pref_rows);
-				   i = i+num_trajectories+1;
+				   else {
+					  console.log('Error in line '+array[i]+' need prefix length and number of rows.');
+					  i++ ;
+				   }
      	        }
      	        return trajectories;
      	}

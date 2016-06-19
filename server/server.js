@@ -16,8 +16,11 @@ app.use("/css", express.static(__dirname + '/../views/css'));
 app.use("/img", express.static(__dirname + '/../views/img'));
 
 
-app.post('/', function(req, res) {
-  // res.type('text/html'); // set content-type
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
+
+app.get('/', function(req, res) {
+  res.type('text/html'); // set content-type
   res.render('prefix.html');
 });
 
